@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCM-Based Smart Milk Chilling Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="card header">
+      <div>
+        <h1>PCM-Based Smart Milk Chilling Can with Java Monitoring Application</h1>
+        <p class="subhead">M. Kumarasamy College of Engineering</p>
+      </div>
+      <div class="header-right">
+        <span class="badge demo">DEMO MODE (simulated data)</span>
+        <span id="liveClock" class="clock"></span>
+        <label>
+          Speed
+          <select id="speedSelect" aria-label="Simulation speed">
+            <option value="1">1x</option>
+            <option value="5">5x</option>
+            <option value="10">10x</option>
+          </select>
+        </label>
+        <button id="themeToggle" class="btn secondary">Dark mode</button>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      <article class="card kpi" id="can1Card">
+        <h2>Hybrid can (PCM + evaporative sleeve)</h2>
+        <p class="temp" id="can1Temp">--.- °C</p>
+        <div class="kpi-meta">
+          <span class="badge" id="can1Status">--</span>
+          <span id="can1Above">Above 8°C: 0m 0s</span>
+          <span id="can1Trend" class="trend">→</span>
+        </div>
+      </article>
+      <article class="card kpi" id="can2Card">
+        <h2>Ordinary can</h2>
+        <p class="temp" id="can2Temp">--.- °C</p>
+        <div class="kpi-meta">
+          <span class="badge" id="can2Status">--</span>
+          <span id="can2Above">Above 8°C: 0m 0s</span>
+          <span id="can2Trend" class="trend">→</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="card chart-panel">
+      <h2>Milk Temperature Trend</h2>
+      <canvas id="tempChart" aria-label="Milk temperature chart"></canvas>
+    </section>
+
+    <section class="card heat-flow">
+      <h2>Heat Flow</h2>
+      <div class="flow-track">
+        <div class="node warm">Warm milk</div>
+        <div class="arrow">→</div>
+        <div class="node steel">Corrugated steel wall</div>
+        <div class="arrow">→</div>
+        <div class="node pcm">PCM jacket (4-8 °C)</div>
+        <div class="arrow">→</div>
+        <div class="node sleeve">Wet jute/cotton sleeve</div>
+        <div class="arrow">→</div>
+        <div class="node air">Air</div>
+      </div>
+    </section>
+
+    <section class="stats-grid" id="statsGrid"></section>
+
+    <section class="card table-panel">
+      <h2>Recent Readings (Last 10)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Can</th>
+              <th>Temperature (°C)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="readingsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card alerts-panel">
+      <h2>Alerts Log</h2>
+      <ul id="alertsList" class="alerts-list"></ul>
+    </section>
+
+    <section class="card actions">
+      <button id="newBatchBtn" class="btn">Pour new warm batch</button>
+      <button id="pauseBtn" class="btn">Pause</button>
+      <button id="exportBtn" class="btn">Export CSV</button>
+      <button id="clearBtn" class="btn danger">Clear</button>
+    </section>
+
+    <footer class="footer">M. Kumarasamy College of Engineering | Review - 2</footer>
+  </div>
+</body>
+</html>

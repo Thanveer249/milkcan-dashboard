@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PCM-Based Smart Milk Chilling Can monitoring dashboard">
+  <title>PCM Smart Milk Chilling Can | Monitoring Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">PCM</div>
+        <div>
+          <p class="eyebrow">Java Monitoring Application</p>
+          <h1>PCM-Based Smart Milk Chilling Can</h1>
+          <span class="institution">M. Kumarasamy College of Engineering</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="demo-badge"><span class="pulse-dot"></span> DEMO MODE <small>(simulated data)</small></span>
+        <div class="clock-wrap">
+          <span class="label">LIVE CLOCK</span>
+          <strong id="liveClock">--:--:--</strong>
+        </div>
+        <label class="control select-control">SPEED
+          <select id="speedSelect" aria-label="Simulation speed">
+            <option value="1">1x</option>
+            <option value="5">5x</option>
+            <option value="10">10x</option>
+          </select>
+        </label>
+        <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="section-heading">
+        <div>
+          <p class="eyebrow">Live cold-chain overview</p>
+          <h2>Milk temperature at a glance</h2>
+        </div>
+        <div class="batch-meta"><span class="status-dot"></span> Batch <strong id="batchNumber">001</strong> <span class="divider">|</span> Tick <strong id="tickCount">000</strong>/180</div>
+      </section>
+
+      <section class="kpi-grid" aria-label="Can status summary">
+        <article class="kpi-card hybrid-card" data-can-card="1">
+          <div class="card-topline"><span class="can-number">CAN 01</span><span class="can-icon">▥</span></div>
+          <h3>Hybrid can</h3>
+          <p class="can-description">PCM + evaporative sleeve</p>
+          <div class="temperature-line"><span id="temp1">--.-</span><sup>°C</sup><span class="trend" id="trend1">→</span></div>
+          <div class="status-row"><span class="status-badge" id="status1">WAITING</span><span class="status-duration">Above 8°C: <strong id="duration1">0 min</strong></span></div>
+          <div class="meter"><span id="meter1"></span></div>
+        </article>
+        <article class="kpi-card ordinary-card" data-can-card="2">
+          <div class="card-topline"><span class="can-number">CAN 02</span><span class="can-icon">▥</span></div>
+          <h3>Ordinary can</h3>
+          <p class="can-description">Uninsulated reference</p>
+          <div class="temperature-line"><span id="temp2">--.-</span><sup>°C</sup><span class="trend" id="trend2">→</span></div>
+          <div class="status-row"><span class="status-badge" id="status2">WAITING</span><span class="status-duration">Above 8°C: <strong id="duration2">0 min</strong></span></div>
+          <div class="meter"><span id="meter2"></span></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel chart-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Temperature trajectory</p><h2>Cooling performance</h2></div><span class="live-label"><span class="pulse-dot"></span> LIVE</span></div>
+          <div class="chart-wrap"><canvas id="temperatureChart" aria-label="Temperature chart"></canvas></div>
+        </article>
+        <article class="panel heat-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Thermal pathway</p><h2>Heat flow</h2></div><span class="flow-chip">OUTWARD</span></div>
+          <div class="heat-diagram" aria-label="Heat flows from warm milk through the can layers to air">
+            <div class="heat-source"><span class="heat-wave">≈</span><strong>Warm<br>milk</strong><small>35°C</small></div>
+            <span class="flow-arrow">›</span>
+            <div class="layer steel"><strong>Corrugated<br>steel wall</strong><small>Conducts heat</small></div>
+            <span class="flow-arrow">›</span>
+            <div class="layer pcm"><strong>PCM jacket</strong><small>4–8°C</small></div>
+            <span class="flow-arrow">›</span>
+            <div class="layer sleeve"><strong>Wet jute /<br>cotton sleeve</strong><small>Evaporative</small></div>
+            <span class="flow-arrow">›</span>
+            <div class="air"><span>♨</span><strong>Air</strong><small>Ambient</small></div>
+          </div>
+          <div class="heat-legend"><span><i class="legend-swatch warm"></i> Heat leaving milk</span><span><i class="legend-swatch cool"></i> Cooling medium</span></div>
+        </article>
+      </section>
+
+      <section class="stats-section">
+        <div class="section-heading compact"><div><p class="eyebrow">Batch analytics</p><h2>Performance statistics</h2></div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-label">HYBRID CAN · MIN / MAX</span><strong id="minmax1">--.- / --.-°C</strong><small>Observed range</small></article>
+          <article class="stat-card"><span class="stat-label">HYBRID CAN · AVERAGE</span><strong id="avg1">--.-°C</strong><small>Rolling batch average</small></article>
+          <article class="stat-card"><span class="stat-label">HYBRID CAN · TIME TO 8°C</span><strong id="reach1">Calculating</strong><small>Simulated time</small></article>
+          <article class="stat-card ordinary-stat"><span class="stat-label">ORDINARY CAN · MIN / MAX</span><strong id="minmax2">--.- / --.-°C</strong><small>Observed range</small></article>
+          <article class="stat-card ordinary-stat"><span class="stat-label">ORDINARY CAN · AVERAGE</span><strong id="avg2">--.-°C</strong><small>Rolling batch average</small></article>
+          <article class="stat-card ordinary-stat"><span class="stat-label">ORDINARY CAN · TIME TO 8°C</span><strong id="reach2">Not reached</strong><small>Simulated time</small></article>
+        </div>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel table-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Telemetry stream</p><h2>Recent readings</h2></div><span class="row-count" id="rowCount">0 readings</span></div>
+          <div class="table-scroll"><table><thead><tr><th>Time</th><th>Can</th><th>Temperature</th><th>Status</th></tr></thead><tbody id="readingsBody"></tbody></table></div>
+        </article>
+        <article class="panel alerts-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Event history</p><h2>Alerts log</h2></div><span class="alert-count" id="alertCount">0 events</span></div>
+          <div class="alerts-list" id="alertsList"></div>
+        </article>
+      </section>
+
+      <section class="actions-bar">
+        <div><p class="eyebrow">Simulation controls</p><p class="action-note">Browser-only demo data resets when the page refreshes.</p></div>
+        <div class="action-buttons">
+          <button class="button primary" id="newBatchBtn" type="button"><span>↻</span> Pour new warm batch</button>
+          <button class="button secondary" id="pauseBtn" type="button"><span>Ⅱ</span> Pause</button>
+          <button class="button secondary" id="exportBtn" type="button"><span>⇩</span> Export CSV</button>
+          <button class="button subtle" id="clearBtn" type="button"><span>×</span> Clear</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>M. Kumarasamy College of Engineering <span>|</span> Review - 2 <span class="footer-right">PCM monitoring study · Demo build</span></footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
